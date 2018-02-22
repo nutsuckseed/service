@@ -3,7 +3,7 @@ require 'vendor/autoload.php';
 
 $app = new Slim\App();
 
-$app->post('/getfaq_type' , function($request , $response , $args){ //เงือ่ไขหน้าบ้าน
+$app->get('/getfaq_type' , function($request , $response , $args){ //เงือ่ไขหน้าบ้าน
 
     include 'conn.php';
 
