@@ -13,7 +13,10 @@ $app->post('/InsertNews' , function($request , $response , $args){
             include 'conn.php';
             $json = $request->getBody(); //POST
             $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //POST
+ 
 
+
+			
            // $cms_title = $jsonArr['cms_title'];
            //  $cms_short_title =$jsonArr['cms_short_title'];
            //  $cms_detail = $jsonArr['cms_detail']; 

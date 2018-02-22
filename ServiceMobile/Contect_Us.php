@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 
-	 if (isset($_SERVER['HTTP_ORIGIN'])) {
+   if (isset($_SERVER['HTTP_ORIGIN'])) {
         header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Max-Age: 86400');    // cache for 1 day
@@ -30,13 +30,15 @@ $app = new Slim\App();
 
 
  $postdata = file_get_contents("php://input");
+            include 'conn.php';
+
     if (isset($postdata)) {
         $request = json_decode($postdata);
         $contac_by_name = $request->contac_by_name;
         $contac_by_surname = $request->contac_by_surname;
         $contac_by_tel = $request->contac_by_tel;
         $contac_by_email = $request->contac_by_email;
-        $contac_subject = $requests->contac_subject;
+        $contac_subject = $request->contac_subject;
         $contac_type = $request->contac_type;
         $contac_detail = $request->contac_detail;
         // $contac_ans_subject = $request->contac_ans_subject;
@@ -45,7 +47,6 @@ $app = new Slim\App();
         // ,'$create_by','$contac_ans_subject'
          $create_date = date("Y-m-d H:i:s");
 
-            include 'conn.php';
 
         if ($contac_by_name != "") {
            $sql = "INSERT INTO tbl_contactus (contac_by_name, contac_by_surname, contac_by_tel, contac_by_email,contac_subject,contac_type, contac_detail, create_date)
@@ -65,7 +66,6 @@ $app = new Slim\App();
                       echo json_encode($arr , JSON_UNESCAPED_UNICODE);
                 }
 
-         $conn->close();
             
 
             echo "Server returns: " . $contac_by_name,'+',$contac_by_surname;
@@ -78,6 +78,8 @@ $app = new Slim\App();
         echo "Not called properly with username parameter!";
     }
 
+         $conn->close();
+      
 
 // $app->run();
 ?>
