@@ -27,6 +27,7 @@ require 'vendor/autoload.php';
 $app = new Slim\App();
 
 
+$app->post('/InsertContectUs' , function($request , $response , $args){
 
 
  $postdata = file_get_contents("php://input");
@@ -34,21 +35,64 @@ $app = new Slim\App();
 
     if (isset($postdata)) {
         $request = json_decode($postdata);
-        $contac_by_name = $request->contac_by_name;
+
+          if(isset($request->contac_by_name)){
+             $contac_by_name = $request->contac_by_name;
+          // $contac_by_name = $jsonArr['contac_by_name'];
+         }else {
+          $error[] = "contac_by_name is required.";
+         }
+       
+          if(isset($request->contac_by_surname)){
         $contac_by_surname = $request->contac_by_surname;
+          // $contac_by_surname = $jsonArr['contac_by_surname'];
+         }else {
+          $error[] = "contac_by_surname is required.";
+         }
+
+          if(isset($request->contac_by_tel)){
         $contac_by_tel = $request->contac_by_tel;
-        $contac_by_email = $request->contac_by_email;
+          // $contac_by_tel = $jsonArr['contac_by_tel'];
+         }else {
+          $error[] = "contac_by_tel is required.";
+         }
+
+          if(isset($request->contac_by_email)){
+          $contac_by_email = $request->contac_by_email;
+          // $contac_by_email = $jsonArr['contac_by_email'];
+         }else {
+          $error[] = "contac_by_email is required.";
+         }
+
+          if(isset($request->contac_subject)){
         $contac_subject = $request->contac_subject;
+          // $contac_subject = $jsonArr['contac_subject'];
+         }else {
+          $error[] = "contac_subject is required.";
+         }
+
+          if(isset($request->contac_type)){
         $contac_type = $request->contac_type;
+
+          // $contac_type = $jsonArr['contac_type'];
+         }else {
+          $error[] = "contac_type is required.";
+         }
+
+          if(isset($request->contac_detail)){
         $contac_detail = $request->contac_detail;
+
+          // $contac_detail = $jsonArr['contac_detail'];
+         }else {
+          $error[] = "contac_detail is required.";
+         }
         // $contac_ans_subject = $request->contac_ans_subject;
         // $create_by = $request->create_by;
         // ,create_by,contac_ans_subject
         // ,'$create_by','$contac_ans_subject'
          $create_date = date("Y-m-d H:i:s");
 
-
-        if ($contac_by_name != "") {
+        if (isset($request->contac_by_name) != "") {
            $sql = "INSERT INTO tbl_contactus (contac_by_name, contac_by_surname, contac_by_tel, contac_by_email,contac_subject,contac_type, contac_detail, create_date)
              
             VALUES ('$contac_by_name', '$contac_by_surname' , '$contac_by_tel','$contac_by_email','$contac_subject','$contac_type','$contac_detail', '$create_date')";
@@ -66,8 +110,6 @@ $app = new Slim\App();
                       echo json_encode($arr , JSON_UNESCAPED_UNICODE);
                 }
 
-            
-
             echo "Server returns: " . $contac_by_name,'+',$contac_by_surname;
         }
         else {
@@ -79,7 +121,7 @@ $app = new Slim\App();
     }
 
          $conn->close();
-      
+      });
 
-// $app->run();
+$app->run();
 ?>

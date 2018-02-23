@@ -8,7 +8,8 @@ require 'vendor/autoload.php';
 $app = new Slim\App();
 
 
-$app->get('/getSuperUser' , function($request , $response , $args){
+$app->get('/getUserPassWord' , function($request , $response , $args){
+
     include 'conn.php';
 
     $json = $request->getBody(); //POST
@@ -19,8 +20,6 @@ $app->get('/getSuperUser' , function($request , $response , $args){
 
 	           $arr = array();
 
-
-
 	        if ($arr != "") {
 	              if ($result->num_rows > 0) {
 	        // output data of each row
@@ -28,8 +27,7 @@ $app->get('/getSuperUser' , function($request , $response , $args){
 	            $username = $row['username'];
               $password = $row['password'];
 
-	            $data[] = (object)array('username' => $username,'password' => $password
-	                                    );
+	            $data[] = (object)array('username' => $username,'password' => $password	                                    );
 	               }
 		            $arr['result'] = 'success';
 	          		$arr['data'] = $data;
@@ -42,10 +40,7 @@ $app->get('/getSuperUser' , function($request , $response , $args){
 
              	}
              	$conn->close();
-             }
-  
-	   
-       
+             }       
     });
 
 

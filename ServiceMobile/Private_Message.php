@@ -4,11 +4,8 @@ require 'vendor/autoload.php';
 		header("Access-Control-Allow-Origin: *");
 		header("Content-Type:application/json; charset=UTF-8");
 
-
 $app = new Slim\App();
 
-
-$app->post('/InsertNews' , function($request , $response , $args){
 
        $postdata = file_get_contents("php://input");
             include 'conn.php';
@@ -28,7 +25,6 @@ $app->post('/InsertNews' , function($request , $response , $args){
         // ,'$create_by','$contac_ans_subject'
          $create_date = date("Y-m-d H:i:s");
 
-
         if ($pm_topic != "") {
            $sql = "INSERT INTO tbl_contactus (pm_topic, pm_quest, create_by, pm_to,pm_alert,question_status, all_file, create_date)
              
@@ -46,9 +42,6 @@ $app->post('/InsertNews' , function($request , $response , $args){
                       $arr['data'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
                       echo json_encode($arr , JSON_UNESCAPED_UNICODE);
                 }
-
-            
-
             echo "Server returns: " . $pm_topic,'+',$pm_quest;
         }
         else {
@@ -58,9 +51,7 @@ $app->post('/InsertNews' , function($request , $response , $args){
     else {
         echo "Not called properly with username parameter!";
     }
-
          $conn->close();
-    });
 
 
 //   $app->post('/DelectNews', function($request , $response , $args)  {
