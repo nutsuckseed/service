@@ -9,46 +9,51 @@ $app->get('/getvdo' , function($request , $response , $args){ //เงือ่�
 
     $json = $request->getBody(); //POST
     $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //POST
-     $vdo_id = isset($jsonArr['vdo_id'])?$jsonArr['vdo_id']:"";
+     $cate_id = isset($jsonArr['cate_id'])?$jsonArr['cate_id']:"";
     
-	 	if($vdo_id == "")
+	 	if($cate_id == "")
 		 	{
-		        $sql = "SELECT * FROM tbl_vdo WHERE active = 'y'";
+		        $sql = "SELECT * FROM tbl_category WHERE active = 'y'";
 		    }
 		    	else 
 		    		{ //WHERE Condition SQL Start!
-				        $sql = "SELECT * FROM tbl_vdo WHERE vdo_id = '$vdo_id' AND active = 'y'";
+				        $sql = "SELECT * FROM tbl_category WHERE cate_id = '$cate_id' AND active = 'y'";
 		    		}
     $result = $conn->query($sql);
     $arr = array();
 	    if ($result->num_rows > 0)
 	    	{
 				$arr["results"] = "successfully";
-
-			    // output data of each row
-			    while($row = $result->fetch_assoc())
-			    	{
-				        $vdo_id = $row['vdo_id'];
-        				$vdo_title = $row['vdo_title'];
-        				$vdo_path = $row['vdo_path'];
+				while($row = $result->fetch_assoc())
+				{
+					  $cate_id = $row['cate_id'];
+        				$cate_type = $row['cate_type'];
+        				$cate_title = $row['cate_title'];
+        				$cate_short_detail = $row['cate_short_detail'];
+        				$cate_detail = $row['cate_detail'];
+        				$cate_image = $row['cate_image'];
+        				$cate_show = $row['cate_show'];
         				$create_date = $row['create_date'];
-        				$create_by = $row['create_by'];
         				$update_date = $row['update_date'];
         				$update_by = $row['update_by'];
         				$active = $row['active'];
+        				$special_category = $row['special_category'];
 
 
-					        $data = (object)array('vdo_id' => $vdo_id,
-					                              'vdo_title' => $vdo_title,
-					                              'vdo_path' => $vdo_path,
+					$data = (object)array('cate_id' => $cate_id,
+					                              'cate_type' => $cate_type,
+					                              'cate_title' => $cate_title,
+					                               'cate_short_detail' => $cate_short_detail,
+					                               'cate_detail' => $cate_detail,
 					                               'create_date' => $create_date,
-					                               'create_by' => $create_by,
-					                               'update_date' => $update_date,
-					                               'update_by' => $update_by,
+					                               'cate_image' => $cate_image,
 					                               'active' => $active
 					                            );
-					        $arr["data"][] = $data;
-			    	}
+					$arr["data"][] = $data;
+				}
+					// mysqli_close($conn);
+				// return json_encode($arr);
+	 
 	     	}
 	     		else
 	     			{
@@ -67,15 +72,15 @@ $app->post('/delete', function($request , $response , $args)
 	    include 'conn.php';
 	        $json = $request->getBody(); //POST
 	        $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //POST
-			$vdo_id = $jsonArr['vdo_id'];
-		if ($vdo_id == "") 
+			$cate_id = $jsonArr['cate_id'];
+		if ($cate_id == "") 
 		{
 			$arr["results"] = "failed: " . $conn->error;
 	    	$arr["data"] = "failed";
 		}
 		else
 		{
-			$sql = " UPDATE tbl_vdo  SET active = 'n' WHERE vdo_id = '$vdo_id' " ;
+			$sql = " UPDATE tbl_vdo  SET active = 'n' WHERE cate_id = '$cate_id' " ;
 			        if ($conn->query($sql) === TRUE)
 			        	{
 			        		$arr["results"] = "success";
@@ -94,24 +99,24 @@ $app->post('/insert' , function($request , $response , $args)
 	        include 'conn.php';
 		        $json = $request->getBody(); //POST
 		        $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //POST
-		        $vdo_title = isset($jsonArr['vdo_title'])?$jsonArr['vdo_title']:"";
-		        $vdo_path = isset($jsonArr['vdo_path'])?$jsonArr['vdo_path']:"";
-		        $create_by = isset($jsonArr['create_by'])?$jsonArr['create_by']:"";
+		        $cate_type = isset($jsonArr['cate_type'])?$jsonArr['cate_type']:"";
+		        $cate_title = isset($jsonArr['cate_title'])?$jsonArr['cate_title']:"";
+		        $cate_detail = isset($jsonArr['cate_detail'])?$jsonArr['cate_detail']:"";
 
-		        if (!empty($vdo_title)) 
+		        if (!empty($cate_type)) 
 		        {
-		        	$create_date = date("Y-m-d H:i:s");
+		        	$cate_short_detail = date("Y-m-d H:i:s");
 		        	$update_date = date("Y-m-d H:i:s");
 
-			        $sql = "INSERT INTO tbl_vdo (vdo_title,
-			                                    	vdo_path,
-			                                    	create_by,
-			                                     	create_date,
+			        $sql = "INSERT INTO tbl_vdo (cate_type,
+			                                    	cate_title,
+			                                    	cate_detail,
+			                                     	cate_short_detail,
 			                                     	update_date )
-			                VALUES ('$vdo_title',
-			                                    	'$vdo_path',
-			                                    	'$create_by',
-			                                    	'$create_date',
+			                VALUES ('$cate_type',
+			                                    	'$cate_title',
+			                                    	'$cate_detail',
+			                                    	'$cate_short_detail',
 			                                    	'$update_date')";
 			        if (mysqli_query($conn, $sql)) 
 			        	{
@@ -132,14 +137,14 @@ $app->post('/update', function($request , $response , $args)
 	    include 'conn.php';
 			        $json = $request->getBody(); //POST
 			        $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //POST
-			        $vdo_id = isset($jsonArr['vdo_id'])?$jsonArr['vdo_id']:"";
-			        // $vdo_path = $jsonArr['vdo_path'];
-			        $vdo_title = isset($jsonArr['vdo_title'])?$jsonArr['vdo_title']:"";
-					$vdo_path = isset($jsonArr['vdo_path'])?$jsonArr['vdo_path']:"";
-					$update_by = isset($jsonArr['update_by'])?$jsonArr['update_by']:"";
+			        $cate_id = isset($jsonArr['cate_id'])?$jsonArr['cate_id']:"";
+			        // $cate_title = $jsonArr['cate_title'];
+			        $cate_type = isset($jsonArr['cate_type'])?$jsonArr['cate_type']:"";
+					$cate_title = isset($jsonArr['cate_title'])?$jsonArr['cate_title']:"";
+					$cate_show = isset($jsonArr['cate_show'])?$jsonArr['cate_show']:"";
 					$update_date = date("Y-m-d H:i:s");
 			        
-		if ($vdo_id == "") 
+		if ($cate_id == "") 
 		{
 			$arr["result"]= "Error updating record: " . $conn->error;
 		}
@@ -147,12 +152,12 @@ $app->post('/update', function($request , $response , $args)
 				{
 
 					$sql = " UPDATE tbl_vdo SET
-									vdo_path = '$vdo_path',
-						        	vdo_title = '$vdo_title',
+									cate_title = '$cate_title',
+						        	cate_type = '$cate_type',
 									update_date = '$update_date', 
-									update_by = '$update_by'
+									cate_show = '$cate_show'
 							WHERE
-									vdo_id = '$vdo_id' " ;
+									cate_id = '$cate_id' " ;
 						        if ($conn->query($sql) === TRUE) 
 						        	{
 									    $arr["result"] = "Record updated successfully";
