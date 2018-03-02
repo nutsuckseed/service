@@ -22,7 +22,7 @@ require 'vendor/autoload.php';
         exit(0);
     }
  
-
+//Insert ทำแล้ว
 
 $app = new Slim\App();
 
@@ -119,7 +119,6 @@ $app->post('/InsertContectUs' , function($request , $response , $args){
     else {
         echo "Not called properly with username parameter!";
     }
-
          $conn->close();
       });
 

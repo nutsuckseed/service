@@ -24,10 +24,12 @@ $app->get('/getUserPassWord' , function($request , $response , $args){
 	              if ($result->num_rows > 0) {
 	        // output data of each row
 	        while($row = $result->fetch_assoc()) {
-	            $username = $row['username'];
-              $password = $row['password'];
+				$id = $row['id'];
+				$username = $row['username'];
+				$password = $row['password'];
+				
 
-	            $data[] = (object)array('username' => $username,'password' => $password	                                    );
+	            $data[] = (object)array('id' => $id,'username' => $username,'password' => $password	                                    );
 	               }
 		            $arr['result'] = 'success';
 	          		$arr['data'] = $data;
