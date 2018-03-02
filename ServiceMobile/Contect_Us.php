@@ -28,8 +28,6 @@ $app = new Slim\App();
 
 
 $app->post('/InsertContectUs' , function($request , $response , $args){
-
-
  $postdata = file_get_contents("php://input");
             include 'conn.php';
 
@@ -86,10 +84,7 @@ $app->post('/InsertContectUs' , function($request , $response , $args){
          }else {
           $error[] = "contac_detail is required.";
          }
-        // $contac_ans_subject = $request->contac_ans_subject;
-        // $create_by = $request->create_by;
-        // ,create_by,contac_ans_subject
-        // ,'$create_by','$contac_ans_subject'
+
          $create_date = date("Y-m-d H:i:s");
 
         if (isset($request->contac_by_name) != "") {
@@ -122,5 +117,7 @@ $app->post('/InsertContectUs' , function($request , $response , $args){
          $conn->close();
       });
 
+
+      
 $app->run();
 ?>
