@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');  
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,6 +12,8 @@ if ($conn->connect_error) {
 } else {
 	mysqli_set_charset($conn,"utf8");
 	date_default_timezone_set("Asia/Bangkok");
+header('Access-Control-Allow-Origin: *');  
+	
 	// echo "Connection Successful!";
 }
 
