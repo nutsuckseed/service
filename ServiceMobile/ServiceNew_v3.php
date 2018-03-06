@@ -225,10 +225,8 @@ $app->get('/getNews' , function($request , $response , $args){
 	                                    'update_date' => $update_date,
 	                                    'update_by' => $update_by,
 	                                    'active' => $active
-	                                    );
-
-	          
-
+										);
+					
 	               }
 		            $arr['result'] = 'success';
 	          		$arr['data'] = $data;
