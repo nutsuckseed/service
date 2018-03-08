@@ -9,38 +9,28 @@ $app->POST('/login', function($request , $response , $args)  {
 
 	 $json = $request->getBody(); //POST
     $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //
+    $username = isset($jsonArr['username'])?$jsonArr['username']:"";
+    $password = isset($jsonArr['password'])?mysqli_real_escape_string($conn,md5($jsonArr['password'])):$jsonArr['password'];
 
-                $sql = "SELECT * FROM tbl_users WHERE superuser = '1'";
+                $sql = "SELECT * FROM tbl_users WHERE (username='$username' or email='$username') and password='$password' ";
                 $result = $conn->query($sql);
 
                $arr = array();
-   
-   
-     if ($arr != "") {
-                  if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-                $username = $row['username'];
-              $password = $row['password'];
-
-                $data[] = (object)array('username' => $username,'password' => $password
-                                        );
-                   }
-                    $arr['result'] = 'success';
-                    $arr['data'] = $data;
-                    echo json_encode($arr , JSON_UNESCAPED_UNICODE);
-
-                 } else {
+                
+        if ($result->num_rows > 0) 
+            {
+                $arr['result'] = 'success';
+                $arr['data'] = $result->fetch_assoc();
+                
+            }
+                else 
+                {
                     $arr['result'] = 'false';
-                    $arr['data'] = "Unsuccessful";
-                echo json_encode($arr , JSON_UNESCAPED_UNICODE);
-
                 }
+                echo json_encode($arr , JSON_UNESCAPED_UNICODE);
+                // var_dump("arr",$arr);
+                
                 $conn->close();
-             }
-  
-       
-       
     });
 
 
