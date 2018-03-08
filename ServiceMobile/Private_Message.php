@@ -1,12 +1,9 @@
 <?php
 require 'vendor/autoload.php';
 
-		header("Access-Control-Allow-Origin: *");
-		header("Content-Type:application/json; charset=UTF-8");
-
 $app = new Slim\App();
 
-$app->post('/InsertPrivateMessage' , function($request , $response , $args){
+$app->POST('/InsertPrivateMessage' , function($request , $response , $args){
 
 
        $postdata = file_get_contents("php://input");
@@ -74,7 +71,7 @@ $app->post('/InsertPrivateMessage' , function($request , $response , $args){
               $arr['result'] = 'success';
               $arr['data'] = "Successfully";
               echo json_encode($arr , JSON_UNESCAPED_UNICODE);
-              echo "ส่งข้อความเรียบร้อย";
+            //   echo "ส่งข้อความเรียบร้อย";
             } 
               else 
                 {
