@@ -25,23 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 $app = new Slim\App();
 
-$app->get('/getLesson/{course_id}' , function($request , $response , $args){ //เงือ่ไข
-
-	$course_id = $args['course_id'];
+$app->get('/getManage' , function($request , $response , $args){ //เงือ่ไข
 
     include 'conn.php';
 
     $json = $request->getBody(); //POST
     $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); //POST
-    //  $course_id = isset($jsonArr['course_id'])?$jsonArr['course_id']:"";
+     $id = isset($jsonArr['id'])?$jsonArr['id']:"";
     
-	 	if($course_id == "")
+	 	if($id == "")
 		 	{
-		        $sql = "SELECT * FROM tbl_lesson WHERE active = 'y'" ;
+		        $sql = "SELECT * FROM tbl_manage WHERE active = 'y'" ;
 		    }
 		    	else 
 		    		{ //WHERE Condition SQL Start!
-				        $sql = "SELECT * FROM tbl_lesson WHERE course_id = '$course_id' AND active = 'y'";
+				        $sql = "SELECT * FROM tbl_manage WHERE id = '$id' AND active = 'y'";
 		    		}
     $result = $conn->query($sql);
     $arr = array();
@@ -50,42 +48,26 @@ $app->get('/getLesson/{course_id}' , function($request , $response , $args){ //�
 				$arr["results"] = "successfully";
 				while($row = $result->fetch_assoc())
 				{
-					  	$course_id = $row['course_id'];
-        				$id = $row['id'];
-        				$title = $row['title'];
-        				$description = $row['description'];
-        				$content = $row['content'];
-        				$cate_amount = $row['cate_amount'];
-        				$cate_percent = $row['cate_percent'];
-						$header_id = $row['header_id'];
-        				$time_test = $row['time_test'];
-        				$image = $row['image'];
+					  	$id = $row['id'];
+        				$manage_id = $row['manage_id'];
+        				$group_id = $row['group_id'];
+        				$type = $row['type'];
+        				$manage_row = $row['manage_row'];
         				$create_date = $row['create_date'];
         				$create_by = $row['create_by'];
         				$update_date = $row['update_date'];
         				$update_by = $row['update_by'];
-        				$view_all = $row['view_all'];
-        				$status = $row['status'];
-        				$lesson_no = $row['lesson_no'];
         				$active = $row['active'];
 
-					$data = (object)array('course_id' => $course_id,
-					                              'id' => $id,
-					                              'title' => $title,
-					                               'description' => $description,
-					                               'content' => $content,
-					                               'time_test' => $time_test,
-					                               'cate_percent' => $cate_percent,
-												   'cate_amount' => $cate_amount,
-					                               'header_id' => $header_id,
-					                               'image' => $image,
+					$data = (object)array('id' => $id,
+					                              'manage_id' => $manage_id,
+					                              'group_id' => $group_id,
+					                               'type' => $type,
+					                               'manage_row' => $manage_row,
 					                               'create_date' => $create_date,
                                                    'create_by' => $create_by,
                                                    'update_date' => $update_date,
                                                    'update_by' => $update_by,
-                                                   'view_all' => $view_all,
-                                                   'status' => $status,
-                                                   'lesson_no' => $lesson_no,
                                                    'active' => $active,
                                                    
 					                            );

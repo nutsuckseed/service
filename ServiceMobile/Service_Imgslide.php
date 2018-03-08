@@ -34,7 +34,8 @@ require 'vendor/autoload.php';
         if(isset($jsonArr['imgslide_id'])){
                     $imgslide_id = $jsonArr['imgslide_id'];
                     $sql = "SELECT * FROM tbl_imgslide WHERE imgslide_id = '$imgslide_id' AND active = 'y'";
-             }else if (isset($jsonArr['imgslide_id'])== "") {
+             }else
+              if (isset($jsonArr['imgslide_id'])== "") {
                        $sql = "SELECT * FROM tbl_imgslide WHERE active = 'y'";
              }else {
                  $error[] = "Unsuccessful";
@@ -60,7 +61,6 @@ require 'vendor/autoload.php';
                     $imgslide_picture = $row['imgslide_picture'];
                     $imgslide_title = $row['imgslide_title'];
                     $imgslide_detail = $row['imgslide_detail'];
-                    
                     $create_date = $row['create_date'];
                     $create_by = $row['create_by'];
                     $update_date = $row['update_date'];
