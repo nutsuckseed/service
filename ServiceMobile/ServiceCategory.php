@@ -69,7 +69,6 @@ $app->get('/getCategory' , function($request , $response , $args){ //เงื�
 					                               'update_by' => $update_by,
 					                               'cate_show' => $cate_show,
 												   'cate_image' => $cate_image,
-					                               'cate_show' => $cate_show,
 					                               'create_by' => $create_by,
 					                               'update_date' => $update_date,
 					                               'special_category' => $special_category,
