@@ -21,7 +21,9 @@ header('Access-Control-Allow-Origin: *');
 /* API key encryption */
 function apiToken($session_uid)
 {
+	// var_dump("session_uid",$session_uid);
 $key=md5(SITE_KEY.$session_uid);
+// var_dump($key);
 return hash('sha256', $key);
 }
 ?>
