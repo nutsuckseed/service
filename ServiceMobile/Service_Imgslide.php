@@ -21,7 +21,7 @@ require 'vendor/autoload.php';
         } 
         exit(0);
     }
-
+ 
     $app = new Slim\App();
 
     $app->get('/getImgslide' , function($request , $response , $args){

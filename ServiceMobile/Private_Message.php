@@ -70,6 +70,8 @@ $app = new Slim\App();
                         else 
                             {
                                 $arr['result'] = 'ส่งข้อความไม่สำเร็จ';
+                                $arr['data'] = "Successfully";
+                                
                             }
         }    
             else
