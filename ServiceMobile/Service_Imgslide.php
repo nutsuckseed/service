@@ -24,78 +24,82 @@ require 'vendor/autoload.php';
  
     $app = new Slim\App();
 
-    $app->get('/getImgslide' , function($request , $response , $args){
+    $app->post('/getImgslide' , function($request , $response , $args){
 
         include 'conn.php';
     
         $json = $request->getBody(); 
         $jsonArr = json_decode($json, true, 512, JSON_UNESCAPED_UNICODE); 
     
-        if(isset($jsonArr['imgslide_id'])){
+        if(isset($jsonArr['imgslide_id']))
+            {
                     $imgslide_id = $jsonArr['imgslide_id'];
                     $sql = "SELECT * FROM tbl_imgslide WHERE imgslide_id = '$imgslide_id' AND active = 'y'";
-             }else
-              if (isset($jsonArr['imgslide_id'])== "") {
-                       $sql = "SELECT * FROM tbl_imgslide WHERE active = 'y'";
-             }else {
-                 $error[] = "Unsuccessful";
-             }
+            }
+                else
+                    if (isset($jsonArr['imgslide_id'])== "") 
+                        {
+                            $sql = "SELECT * FROM tbl_imgslide WHERE active = 'y'";
+                        }
+                            else 
+                                {
+                                    $error[] = "Unsuccessful";
+                                }
     
-              if(isset($error)){
-                  $arr['result'] = 'false';
-                  $arr['data'] = $error;
-                  echo json_encode($arr , JSON_UNESCAPED_UNICODE);
-              }else {
-    
-                $result = $conn->query($sql);
-    
-                $arr = array();
-    
-                if ($arr != "") {
-                      if ($result->num_rows > 0) {
-                // output data of each row
-                while($row = $result->fetch_assoc()) {
-    
-                    $imgslide_id = $row['imgslide_id'];
-                    $imgslide_link = $row['imgslide_link'];
-                    $imgslide_picture = $row['imgslide_picture'];
-                    $imgslide_title = $row['imgslide_title'];
-                    $imgslide_detail = $row['imgslide_detail'];
-                    $create_date = $row['create_date'];
-                    $create_by = $row['create_by'];
-                    $update_date = $row['update_date'];
-                    $update_by = $row['update_by'];
-                    $active = $row['active'];
-    
-                    $data[] = (object)array('imgslide_id' => $imgslide_id,
-                                          'imgslide_link' => $imgslide_link,
-                                            'imgslide_picture'=> $imgslide_picture,
-                                            'imgslide_title'=> $imgslide_title,
-                                            'imgslide_detail'=> $imgslide_detail,                                           
-                                            'create_date' => $create_date,
-                                            'create_by' => $create_by,
-                                            'update_date' => $update_date,
-                                            'update_by' => $update_by,
-                                            'active' => $active
-                                            );
-    
-                  
-    
-                       }
-                        $arr['result'] = 'success';
-                          $arr['data'] = $data;
-                          echo json_encode($arr , JSON_UNESCAPED_UNICODE);
-    
-                     } else {
-                        $arr['result'] = 'false';
-                          $arr['data'] = "Unsuccessful";
-                      echo json_encode($arr , JSON_UNESCAPED_UNICODE);
-    
-                     }
-                     $conn->close();
-                 }
+            if(isset($error))
+                {
+                    $arr['result'] = 'false';
+                    $arr['data'] = $error;
+                    echo json_encode($arr , JSON_UNESCAPED_UNICODE);
+                }
+                    else 
+                        {
+                            $result = $conn->query($sql);
+                            $arr = array();
+                                if ($arr != "") 
+                                    {
+                                        if ($result->num_rows > 0) 
+                                            {
+                    // output data of each row
+                                                while($row = $result->fetch_assoc()) 
+                                                    {
+                                                        $imgslide_id = $row['imgslide_id'];
+                                                        $imgslide_link = $row['imgslide_link'];
+                                                        $imgslide_picture = $row['imgslide_picture'];
+                                                        $imgslide_title = $row['imgslide_title'];
+                                                        $imgslide_detail = $row['imgslide_detail'];
+                                                        $create_date = $row['create_date'];
+                                                        $create_by = $row['create_by'];
+                                                        $update_date = $row['update_date'];
+                                                        $update_by = $row['update_by'];
+                                                        $active = $row['active'];
+                                        
+                                                        $data[] = (object)array('imgslide_id' => $imgslide_id,
+                                                                                'imgslide_link' => $imgslide_link,
+                                                                                'imgslide_picture'=> $imgslide_picture,
+                                                                                'imgslide_title'=> $imgslide_title,
+                                                                                'imgslide_detail'=> $imgslide_detail,                                           
+                                                                                'create_date' => $create_date,
+                                                                                'create_by' => $create_by,
+                                                                                'update_date' => $update_date,
+                                                                                'update_by' => $update_by,
+                                                                                'active' => $active
+                                                                                );                                            
+                                                    }
+                                                $arr['result'] = 'success';
+                                                $arr['data'] = $data;
+                                                echo json_encode($arr , JSON_UNESCAPED_UNICODE);
+                                            } 
+                                                else 
+                                                    {
+                                                        $arr['result'] = 'false';
+                                                        $arr['data'] = "Unsuccessful";
+                                                        echo json_encode($arr , JSON_UNESCAPED_UNICODE);
+                                                    }
+                                        $conn->close();
+                                    }
       
-             }
+                        }
            
            
         });
